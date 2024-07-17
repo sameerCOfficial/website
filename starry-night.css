@@ -1,0 +1,32 @@
+/* starry-night.css */
+body, html {
+    background-color: #000;
+    background: linear-gradient(to bottom, #000 0%, #06063b 100%);
+  }
+  
+  .starry-night {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+  
+  .star {
+    position: absolute;
+    background-color: white;
+    border-radius: 50%;
+    animation: twinkle 3s infinite;
+  }
+  
+  @keyframes twinkle {
+    0% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+  

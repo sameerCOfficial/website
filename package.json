@@ -1,0 +1,28 @@
+{
+  "name": "sameer_website",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
+  },
+  "dependencies": {
+    "animejs": "^3.2.2",
+    "bulma": "^1.0.1",
+    "gsap": "^3.12.5",
+    "progressbar.js": "^1.1.1",
+    "three": "^0.166.1",
+    "vanta": "^0.5.24",
+    "vue": "^3.4.29",
+    "vue-router": "^4.0.13"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.0.5",
+    "gh-pages": "^6.1.1",
+    "vite": "^5.3.1"
+  }
+}
