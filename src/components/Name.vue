@@ -19,5 +19,6 @@
 
 #description {
   padding-top: 2vh;
+  font-size: 1.4rem;
 }
 </style>

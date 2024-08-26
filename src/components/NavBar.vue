@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar is-fixed-top has-text-white is-size-5">
     <div class="navbar-brand">
-      <a class="navbar-item" href="#">
+      <a class="navbar-item" @click.prevent="scrollToSection('home')">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
@@ -29,13 +29,10 @@
 
     <div :class="{'navbar-menu': true, 'is-active': navbarActive}">
       <div class="navbar-end is-size-4">
-        <a class="navbar-item" href="#">
-          Home
-        </a>
-        <a class="navbar-item" href="#projects">
+        <a class="navbar-item" href="/#projects" @click.prevent="scrollToSection('projects')">
           Projects
         </a>
-        <a class="navbar-item" href="#skills">
+        <a class="navbar-item" href="/#skills" @click.prevent="scrollToSection('skills')">
           Skills
         </a>
         <a class="navbar-item" href="resume.pdf" target="_blank">
@@ -53,6 +50,13 @@ const navbarActive = ref(false);
 
 const toggleNavbar = () => {
   navbarActive.value = !navbarActive.value;
+};
+
+const scrollToSection = (id) => {
+  const element = document.getElementById(id);
+  if (element) {
+    element.scrollIntoView({ behavior: 'smooth' });
+  }
 };
 </script>
 

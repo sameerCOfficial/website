@@ -13,8 +13,8 @@ function addStars(count) {
   for (let i = 0; i < count; i++) {
     setTimeout(() => {
       starryNight.appendChild(createStar());
-    }, Math.random() * 5000); // Adjust the delay range as needed (from 0 to 5000 milliseconds)
+    }, Math.random() * 5000); 
   }
 }
 
-addStars(100); // Adjust the number of stars and delay range as needed
+addStars(100);

@@ -3,12 +3,12 @@ let skills = [
   {
     title: "Frontend",
     description: "Proficiency in Desktop and Mobile app development. Experience with Vue(this site!), React & React Native",
-    image: "store.png",
+    image: "frontend.png",
   },
   {
     title: "Backend",
     description: "Proficient in developing backends utilizing SQL databases such as PostgreSQL and MySQL, as well as NoSQL databases like MongoDB. Experienced in using Express.js for backend development.",
-    image: "back.png",
+    image: "backend.png",
   },
 ];
 </script>
@@ -20,7 +20,7 @@ let skills = [
       <div v-for="(skill, index) in skills" :key="index" class="skill-item">
         <h2 class="title is-size-3">{{ skill.title }}</h2>
           <img
-            :src="`/${skill.image}`"
+            :src="`./${skill.image}`"
             alt="Project Image"
             class="skill-image"
           />

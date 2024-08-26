@@ -7,9 +7,9 @@
       </div>
   
       <div class="main-content" v-if="!showLoadingScreen">
-        <div class="content-wrapper">
+        <div class="content-wrapper" id="home">
           <NavBar></NavBar>
-          <div class="name" ref="nameRef">
+          <div class="name" id="name" ref="nameRef">
             <Name></Name>
           </div>
           <div class="star-cursor" ref="starRef">
@@ -44,85 +44,156 @@
           <div class="skills" id="skills" ref="skillsRef">
             <Skills></Skills>
           </div>
+          <Footer></Footer>
         </div>
       </div>
     </div>
   </template>
   
   <script setup>
-  import { ref, onMounted, nextTick } from 'vue';
-  import { gsap } from 'gsap';
-  import { ScrollTrigger } from 'gsap/ScrollTrigger';
-  import NavBar from '../components/NavBar.vue';
-  import Loading from '../components/BGAnimation.vue';
-  import Name from '../components/Name.vue';
-  import Projects from '../components/Projects.vue';
-  import Skills from '../components/Skills.vue';
-  
-  // Ensure gsap plugins are registered
-  gsap.registerPlugin(ScrollTrigger);
-  
-  const showLoadingScreen = ref(true);
-  const nameRef = ref(null);
-  const starRef = ref(null);
-  const projectsRef = ref(null);
-  const starTwoRef = ref(null);
-  const skillsRef = ref(null);
-  
-  onMounted(() => {
-    setTimeout(async () => {
+import { ref, onMounted, nextTick } from 'vue';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import NavBar from '../components/NavBar.vue';
+import Loading from '../components/BGAnimation.vue';
+import Name from '../components/Name.vue';
+import Projects from '../components/Projects.vue';
+import Skills from '../components/Skills.vue';
+import Footer from '../components/Footer.vue';
+
+gsap.registerPlugin(ScrollTrigger);
+
+const showLoadingScreen = ref(true);
+const nameRef = ref(null);
+const starRef = ref(null);
+const projectsRef = ref(null);
+const starTwoRef = ref(null);
+const skillsRef = ref(null);
+
+// Check local storage for 'hasVisited'
+const hasVisited = localStorage.getItem('hasVisited');
+
+onMounted(() => {
+  if (!hasVisited) {
+    // If not visited before, show loading screen
+    setTimeout(() => {
       showLoadingScreen.value = false;
-  
-      await nextTick();
-  
-      console.log('nameRef:', nameRef.value);
-      console.log('starRef:', starRef.value);
-      console.log('projectsRef:', projectsRef.value);
-      console.log('starTwoRef:', starTwoRef.value);
-      console.log('skillsRef:', skillsRef.value);
-  
+      localStorage.setItem('hasVisited', 'true');
+
+      // GSAP animations
+      nextTick(() => {
+        if (nameRef.value && starRef.value && projectsRef.value && starTwoRef.value && skillsRef.value) {
+          // Animation for starRef (star-cursor)
+          gsap.timeline({
+            scrollTrigger: {
+              trigger: projectsRef.value,
+              start: 'top 80%',
+              end: 'top 20%',
+              scrub: true,
+            },
+          })
+          .fromTo(".projects", { y: 30, opacity: 0 }, { y: 0, opacity: 1 })
+          .to(nameRef.value, { opacity: 0 });
+
+          gsap.fromTo(starRef.value, 
+          { y: 0, opacity: 1, rotate: 0 }, 
+          { 
+            y: 350, 
+            opacity: 0, 
+            rotate: 360,
+            duration: 2, 
+            ease: 'power1.inOut', 
+            scrollTrigger: {
+              trigger: projectsRef.value,
+              start: 'top 75%', 
+              end: 'top 30%',  
+              scrub: true,
+            },
+          });
+
+          gsap.timeline({
+            scrollTrigger: {
+              trigger: skillsRef.value,
+              start: 'top 80%',
+              end: 'top 10%',
+              scrub: true,
+            },
+          })
+          .fromTo(starRef.value, { y: 0, opacity: 1}, { y: 350, opacity: 0 })
+          .fromTo(".skills", { y: 30, opacity: 0 }, { y: 0, opacity: 1 });
+
+          // Animation for starTwoRef (star-two)
+          gsap.to([starTwoRef.value], {
+            rotation: "+=360",
+            duration: 2,
+            repeat: -1,
+            ease: 'linear',
+          });
+        }
+      });
+    }, 3000);
+  } else {
+    // If already visited, directly hide loading screen and run animations
+    showLoadingScreen.value = false;
+
+    nextTick(() => {
       if (nameRef.value && starRef.value && projectsRef.value && starTwoRef.value && skillsRef.value) {
-        // Animation for starRef (star-cursor)
+        // GSAP animations
         gsap.timeline({
           scrollTrigger: {
             trigger: projectsRef.value,
-            start: 'top 100%',
-            end: 'top 10%',
+            start: 'top 80%',
+            end: 'top 20%',
             scrub: true,
           },
         })
-        .fromTo(starRef.value, { y: 0, opacity: 1 }, { y: 350, opacity: 0 })
         .fromTo(".projects", { y: 30, opacity: 0 }, { y: 0, opacity: 1 })
         .to(nameRef.value, { opacity: 0 });
+
+        gsap.fromTo(starRef.value, 
+        { y: 0, opacity: 1, rotate: 0 }, 
+        { 
+          y: 350, 
+          opacity: 0, 
+          rotate: 360,
+          duration: 2, 
+          ease: 'power1.inOut', 
+          scrollTrigger: {
+            trigger: projectsRef.value,
+            start: 'top 75%', 
+            end: 'top 30%',  
+            scrub: true,
+          },
+        });
 
         gsap.timeline({
           scrollTrigger: {
             trigger: skillsRef.value,
-            start: 'top 100%',
+            start: 'top 80%',
             end: 'top 10%',
             scrub: true,
           },
         })
-        .fromTo(starRef.value, { y: 0, opacity: 1 }, { y: 350, opacity: 0 })
-        .fromTo(".skills", { y: 30, opacity: 0 }, { y: 0, opacity: 1 })
+        .fromTo(starRef.value, { y: 0, opacity: 1}, { y: 350, opacity: 0 })
+        .fromTo(".skills", { y: 30, opacity: 0 }, { y: 0, opacity: 1 });
 
-  
-        // Continuous rotation for both stars
-        gsap.to([starRef.value, starTwoRef.value], {
+        // Animation for starTwoRef (star-two)
+        gsap.to([starTwoRef.value], {
           rotation: "+=360",
           duration: 2,
           repeat: -1,
           ease: 'linear',
         });
       }
-    }, 3000);
-  });
-  </script>
+    });
+  }
+});
+</script>
   
   <style scoped>
 
   .skills{
-    margin-bottom:30vh;
+    margin-bottom:15vh;
   }
   .star-two {
     text-align: center;
@@ -148,7 +219,7 @@
   
   .projects {
     position: relative;
-    margin-top: 40vh;
+    margin-top: 20vh;
     padding: 2rem;
   }
   
